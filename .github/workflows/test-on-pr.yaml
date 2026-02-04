@@ -1,0 +1,22 @@
+name: Test on PR
+on:
+  pull_request
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        run: npm install
+      - name: Build Vendure
+        run: npm run build
+      - name: Start Vendure
+        run: npm run start
