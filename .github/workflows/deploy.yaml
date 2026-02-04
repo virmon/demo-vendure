@@ -24,7 +24,7 @@ jobs:
         with:
           project_id: la-maison-mahal
       - name: Build Docker container
-        run: ./build-docker.sh la-maison-mahal
+        run: bash ./build-docker.sh la-maison-mahal
 
   deploy-production:
     if: ${{ github.ref == 'refs/heads/main' }}
@@ -49,7 +49,7 @@ jobs:
       - run: 'echo "$SECRET_VARS" > .env'
         env:
           SECRET_VARS: ${{secrets[matrix.instances.secret]}}
-      - run: ./deploy.sh ${{ matrix.instances.name }} ${{ matrix.instances.db }} ${{ matrix.instances.memory }}
+      - run: bash ./deploy.sh ${{ matrix.instances.name }} ${{ matrix.instances.db }} ${{ matrix.instances.memory }}
 
   deploy-test:
     if: ${{ github.ref == 'refs/heads/develop' }}
@@ -74,4 +74,4 @@ jobs:
       - run: 'echo "$SECRET_VARS" > .env'
         env:
           SECRET_VARS: ${{secrets[matrix.instances.secret]}}
-      - run: ./deploy.sh ${{ matrix.instances.name }} ${{ matrix.instances.db }} ${{ matrix.instances.memory }} $GCLOUD_PROJECT
+      - run: bash ./deploy.sh ${{ matrix.instances.name }} ${{ matrix.instances.db }} ${{ matrix.instances.memory }} $GCLOUD_PROJECT
