@@ -8,7 +8,7 @@
 # Replace 'my-repo' with your actual repository name
 IMAGE_URL="us-central1-docker.pkg.dev/$1/lmm-repo-prod/vendure"
 
-docker build -t $IMAGE_URL .
+docker build -f apps/server/Dockerfile -t $IMAGE_URL .
 
 # 2. Configure authentication for the US regional host
 gcloud auth configure-docker us-central1-docker.pkg.dev -q
