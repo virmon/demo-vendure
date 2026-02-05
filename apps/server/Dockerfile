@@ -16,7 +16,9 @@ COPY . .
 
 # Build the server (compiles TS to JS in apps/server/dist)
 # The skipLibCheck in tsconfig will prevent the Dashboard errors
-RUN npm run build --workspace=server
+# This tells tsc to ONLY build the current project and IGNORE the references (the dashboard)
+RUN ./node_modules/.bin/tsc -p apps/server/tsconfig.json --build --clean && \
+    ./node_modules/.bin/tsc -p apps/server/tsconfig.json --declaration false
 
 # --- STAGE 2: Runtime Stage ---
 FROM node:22-slim
