@@ -3,7 +3,14 @@
 # format to use:
 # ./build-docker.sh your-project
 
-docker build -t eu.gcr.io/$1/vendure .
-# Configure docker to use Google authentication
-gcloud auth configure-docker -q
-docker push eu.gcr.io/$1/vendure
+# 1. Update the URL to use Artifact Registry in the US
+# Format: [REGION]-docker.pkg.dev/[PROJECT]/[REPO]/[IMAGE]
+# Replace 'my-repo' with your actual repository name
+IMAGE_URL="us-central1-docker.pkg.dev/$1/lmm-repo-prod/vendure"
+
+docker build -t $IMAGE_URL .
+
+# 2. Configure authentication for the US regional host
+gcloud auth configure-docker us-central1-docker.pkg.dev -q
+
+docker push $IMAGE_URL
