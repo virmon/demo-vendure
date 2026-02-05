@@ -17,6 +17,8 @@
   "include": ["src/**/*.ts"],
   "exclude": [
     "node_modules",
+    "../../node_modules/@vendure/dashboard",   // <--- ADD THIS (for Monolith root)
+    "node_modules/@vendure/dashboard", 
     "migration.ts",
     "src/plugins/**/ui/*",
     "admin-ui",

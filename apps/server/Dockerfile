@@ -1,32 +1,40 @@
-# --- STAGE 1: Build ---
+# --- STAGE 1: Build Stage ---
 FROM node:22 AS builder
 WORKDIR /usr/src/app
 
-# Copy root manifests
+# Copy root package files
 COPY package.json package-lock.json ./
-# Copy workspace manifests (crucial for npm to map paths correctly)
+
+# Copy the server-specific package.json
 COPY apps/server/package.json ./apps/server/
 
-# Install ALL dependencies (including TypeScript)
+# Install ALL dependencies (needed for the TypeScript compiler)
 RUN npm install
 
-# Copy the rest of the source code
+# Copy the rest of the monolith source code
 COPY . .
 
-# Build the server workspace
-# This will now find 'tsc' in the node_modules
+# Build the server (compiles TS to JS in apps/server/dist)
+# The skipLibCheck in tsconfig will prevent the Dashboard errors
 RUN npm run build --workspace=server
 
-# --- STAGE 2: Runtime ---
+# --- STAGE 2: Runtime Stage ---
 FROM node:22-slim
 WORKDIR /usr/src/app
 
-# Only copy the production-ready files
+# Set production environment
+ENV NODE_ENV=production
+
+# Copy only the necessary files from the builder
 COPY package.json package-lock.json ./
+# Copy the installed node_modules
 COPY --from=builder /usr/src/app/node_modules ./node_modules
+# Copy the compiled code and its package.json
 COPY --from=builder /usr/src/app/apps/server/dist ./apps/server/dist
 COPY --from=builder /usr/src/app/apps/server/package.json ./apps/server/package.json
 
+# Expose Vendure port
 EXPOSE 3000
-# Run the compiled JS from the dist folder
-CMD ["npm", "run", "start", "--workspace=server"]
+
+# Start the compiled server
+CMD ["npm", "run", "start:server", "--workspace=server"]
