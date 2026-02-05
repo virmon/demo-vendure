@@ -18,6 +18,7 @@
   "exclude": [
     "node_modules",
     "../../node_modules/@vendure/dashboard",   // <--- ADD THIS (for Monolith root)
+    "dist",
     "node_modules/@vendure/dashboard", 
     "migration.ts",
     "src/plugins/**/ui/*",
