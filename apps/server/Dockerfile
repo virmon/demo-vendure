@@ -2,42 +2,46 @@
 FROM node:22 AS builder
 WORKDIR /usr/src/app
 
+# Copy root and server manifests
 COPY package.json package-lock.json ./
 COPY apps/server/package.json ./apps/server/
 
-# Install ALL dependencies
+# Install ALL dependencies (needed for tsc)
 RUN npm install
 
+# Copy the entire monolith source
 COPY . .
 
-# THE FIX: Use 'tsc' but tell it to ignore all the library errors 
-# and only emit the JS files from your 'src' folder.
+# Build the server
 RUN ./node_modules/.bin/tsc -p apps/server/tsconfig.json \
     --skipLibCheck true \
     --emitDeclarationOnly false \
     --noEmit false \
     --declaration false || [ -d "apps/server/dist" ]
 
-# Check if build actually worked
-RUN ls -l apps/server/dist/index.js
-
+# --- STAGE 2: Runtime Stage ---
 FROM node:22-slim
 WORKDIR /usr/src/app
 
-# Copy only production dependencies
+# 1. Copy manifests and install production dependencies
 COPY package.json package-lock.json ./
 COPY apps/server/package.json ./apps/server/
-
 RUN npm ci --only=production
 
-# Copy compiled JS from builder
+# 2. THE CRITICAL FIX: Copy the static assets (Email templates, etc.)
+# Your error proved Vendure needs these files at runtime to bootstrap
+COPY --from=builder /usr/src/app/apps/server/static ./apps/server/static
+
+# 3. Copy the compiled JS from builder into the correct subfolder
+# Maintaining the 'apps/server/dist' path ensures relative imports work
 COPY --from=builder /usr/src/app/apps/server/dist ./apps/server/dist
 
-# Expose port 8080
+# 4. Set environment variables
+ENV NODE_ENV=production
+# Cloud Run expects 8080
+ENV PORT=8080
 EXPOSE 8080
 
-# Set PORT environment variable
-ENV PORT=8080
-
-# Start the application
+# 5. Start the application
+# Points directly to the compiled entry point
 CMD ["node", "apps/server/dist/index.js"]
