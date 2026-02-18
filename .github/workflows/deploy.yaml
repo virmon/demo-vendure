@@ -33,7 +33,7 @@ jobs:
     strategy:
       matrix:
         instances: [
-          { name: "your-project-api", db: "prod-db", secret: "ENV_PROD", memory: "2G"},
+          { name: "la-maison-mahal", db: "prod-db", secret: "ENV_PROD", memory: "2G"},
           { name: "your-project-worker", db: "prod-db", secret: "ENV_PROD", memory: "2G"},
         ]
     runs-on: ubuntu-latest
@@ -58,7 +58,7 @@ jobs:
     strategy:
       matrix:
         instances: [
-          { name: "your-project-test-api", db: "test-db", secret: "ENV_TEST", memory: "1G"},
+          { name: "la-maison-mahal", db: "test-db", secret: "ENV_TEST", memory: "1G"},
           { name: "your-project-test-worker", db: "test-db", secret: "ENV_TEST", memory: "1G"},
         ]
     runs-on: ubuntu-latest
