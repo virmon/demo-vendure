@@ -13,4 +13,5 @@ gcloud run deploy $1 \
             --project=$4 \
             --set-env-vars=$ENV_VARS \
             --add-cloudsql-instances="$4:us-central1:$2" \
-            --memory=$3
+            --memory=$3 \
+            --port=3000
