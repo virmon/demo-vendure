@@ -34,7 +34,6 @@ jobs:
       matrix:
         instances: [
           { name: "la-maison-mahal", db: "prod-db", secret: "ENV_PROD", memory: "2G"},
-          { name: "your-project-worker", db: "prod-db", secret: "ENV_PROD", memory: "2G"},
         ]
     runs-on: ubuntu-latest
     steps:

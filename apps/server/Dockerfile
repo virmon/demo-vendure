@@ -34,10 +34,10 @@ RUN npm ci --only=production
 COPY --from=builder /usr/src/app/apps/server/dist ./apps/server/dist
 
 # Expose port 8080
-EXPOSE 8080
+EXPOSE 3000
 
 # Set PORT environment variable
-ENV PORT=8080
+ENV PORT=3000
 
 # Start the application
 CMD ["node", "apps/server/dist/index.js"]
