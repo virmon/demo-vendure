@@ -6,7 +6,7 @@
 export ENV_VARS=$(paste -sd, .env)
 gcloud run deploy $1 \
             --quiet \
-            --image "us-central1-docker.pkg.dev/$4/vendure:latest" \
+            --image "us-central1-docker.pkg.dev/$4/lmm-repo-prod/vendure:latest" \
             --region "us-central1" \
             --platform "managed" \
             --allow-unauthenticated \

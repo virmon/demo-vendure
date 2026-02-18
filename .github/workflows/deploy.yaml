@@ -49,7 +49,7 @@ jobs:
       - run: 'echo "$SECRET_VARS" > .env'
         env:
           SECRET_VARS: ${{secrets[matrix.instances.secret]}}
-      - run: bash ./deploy.sh ${{ matrix.instances.name }} ${{ matrix.instances.db }} ${{ matrix.instances.memory }}
+      - run: bash ./deploy.sh ${{ matrix.instances.name }} ${{ matrix.instances.db }} ${{ matrix.instances.memory }} $GCLOUD_PROJECT
 
   deploy-test:
     if: ${{ github.ref == 'refs/heads/develop' }}
