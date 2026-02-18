@@ -21,23 +21,23 @@ RUN ./node_modules/.bin/tsc -p apps/server/tsconfig.json \
 # Check if build actually worked
 RUN ls -l apps/server/dist/index.js
 
+# --- STAGE 2: Runtime ---
 FROM node:22-slim
+# Install library for PostgreSQL if needed
+RUN apt-get update && apt-get install -y libpq-dev && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /usr/src/app
 
-# Copy only production dependencies
+# COPY THE WHOLE STRUCTURE (Crucial for Monoliths)
 COPY package.json package-lock.json ./
-COPY apps/server/package.json ./apps/server/
-
-RUN npm ci --only=production
-
-# Copy compiled JS from builder
+COPY --from=builder /usr/src/app/node_modules ./node_modules
 COPY --from=builder /usr/src/app/apps/server/dist ./apps/server/dist
+COPY --from=builder /usr/src/app/apps/server/package.json ./apps/server/package.json
 
-# Expose port 8080
+ENV NODE_ENV=production
+# Cloud Run uses 8080 by default. Vendure will pick this up via process.env.PORT
+ENV PORT=3000
 EXPOSE 3000
 
-# Set PORT environment variable
-ENV PORT=3000
-
-# Start the application
+# Execute from the root using the workspace flag
 CMD ["node", "apps/server/dist/index.js"]
