@@ -23,7 +23,7 @@ import { cloudLogger } from './logger';
 import { GoogleStorageAssetsPlugin } from '@pinelab/vendure-plugin-google-storage-assets';
 
 const IS_DEV = process.env.APP_ENV === 'dev';
-const serverPort = +process.env.PORT || 3000;
+const serverPort = +process.env.PORT || 8080;
 
 let logger: VendureLogger;
 export let runningLocal = false;
