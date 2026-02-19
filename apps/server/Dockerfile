@@ -13,11 +13,12 @@ RUN npm install
 COPY . .
 
 # Build the server
-RUN ./node_modules/.bin/tsc -p apps/server/tsconfig.json \
-    --skipLibCheck true \
-    --emitDeclarationOnly false \
-    --noEmit false \
-    --declaration false || [ -d "apps/server/dist" ]
+# RUN ./node_modules/.bin/tsc -p apps/server/tsconfig.json \
+#     --skipLibCheck true \
+#     --emitDeclarationOnly false \
+#     --noEmit false \
+#     --declaration false || [ -d "apps/server/dist" ]
+RUN npm run build:server
 
 # --- STAGE 2: Runtime Stage ---
 FROM node:22-slim
