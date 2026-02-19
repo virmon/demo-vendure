@@ -13,7 +13,7 @@ RUN npm install
 # Copy the entire monolith source
 # COPY . .
 
-RUN npm run
+RUN ls
 
 # Build the server
 # RUN ./node_modules/.bin/tsc -p apps/server/tsconfig.json \
@@ -48,4 +48,4 @@ EXPOSE 8080
 
 # 5. Start the application
 # Points directly to the compiled entry point
-CMD ["node", "server/dist/index.js"]
+CMD ["node", "apps/server/dist/index.js"]
