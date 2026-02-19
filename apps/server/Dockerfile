@@ -21,7 +21,7 @@ RUN npm run
 #     --emitDeclarationOnly false \
 #     --noEmit false \
 #     --declaration false || [ -d "apps/server/dist" ]
-RUN ./apps/server/package.json npm run build:dashboard
+RUN npm --prefix apps/server run build:dashboard
 
 # --- STAGE 2: Runtime Stage ---
 FROM node:22-slim
