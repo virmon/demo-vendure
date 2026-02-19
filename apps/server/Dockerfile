@@ -18,7 +18,7 @@ COPY . .
 #     --emitDeclarationOnly false \
 #     --noEmit false \
 #     --declaration false || [ -d "apps/server/dist" ]
-RUN npm run build:server
+RUN npm run build:dashboard
 
 # --- STAGE 2: Runtime Stage ---
 FROM node:22-slim
