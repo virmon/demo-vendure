@@ -4,13 +4,14 @@ WORKDIR /usr/src/app
 
 # Copy root and server manifests
 # COPY package.json package-lock.json ./
-COPY apps/server/package.json ./apps/server/
+# COPY apps/server/package.json ./apps/server/
+COPY . .
 
 # Install ALL dependencies (needed for tsc)
 RUN npm install
 
 # Copy the entire monolith source
-COPY . .
+# COPY . .
 
 RUN npm run
 
