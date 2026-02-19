@@ -3,7 +3,7 @@ FROM node:22 AS builder
 WORKDIR /usr/src/app
 
 # Copy root and server manifests
-COPY package.json package-lock.json ./
+# COPY package.json package-lock.json ./
 COPY apps/server/package.json ./apps/server/
 
 # Install ALL dependencies (needed for tsc)
@@ -11,6 +11,8 @@ RUN npm install
 
 # Copy the entire monolith source
 COPY . .
+
+RUN npm run
 
 # Build the server
 # RUN ./node_modules/.bin/tsc -p apps/server/tsconfig.json \
