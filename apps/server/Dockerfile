@@ -24,13 +24,13 @@ RUN npm run
 RUN npm --prefix apps/server run build:dashboard
 
 # --- STAGE 2: Runtime Stage ---
-FROM node:22-slim
-WORKDIR /usr/src/app
+# FROM node:22-slim
+# WORKDIR /usr/src/app
 
 # 1. Copy manifests and install production dependencies
 # COPY package.json package-lock.json ./
 # COPY apps/server/package.json ./apps/server/
-RUN npm ci --only=production
+# RUN npm ci --only=production
 
 # 2. THE CRITICAL FIX: Copy the static assets (Email templates, etc.)
 # Your error proved Vendure needs these files at runtime to bootstrap
