@@ -50,4 +50,4 @@ RUN ls apps/server/dist/dashboard
 
 # 5. Start the application
 # Points directly to the compiled entry point
-CMD ["node", "/usr/src/app/apps/server/dist/dashboard/index.js"]
+CMD ["node", "/usr/src/app/apps/server/dist/dashboard/index.html"]
