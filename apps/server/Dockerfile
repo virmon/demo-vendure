@@ -46,8 +46,8 @@ ENV NODE_ENV=production
 ENV PORT=8080
 EXPOSE 8080
 
-RUN ls apps/server/dist
+RUN ls apps/server/dist/dashboard
 
 # 5. Start the application
 # Points directly to the compiled entry point
-CMD ["node", "/usr/src/app/apps/server/dist/index.js"]
+CMD ["node", "/usr/src/app/apps/server/dist/dashboard/index.js"]
