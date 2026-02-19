@@ -46,7 +46,6 @@ ENV NODE_ENV=production
 ENV PORT=8080
 EXPOSE 8080
 
-RUN ls app
 RUN ls apps
 
 # 5. Start the application
