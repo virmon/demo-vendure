@@ -24,21 +24,21 @@ RUN ls
 RUN npm --prefix apps/server run build:dashboard
 
 # --- STAGE 2: Runtime Stage ---
-# FROM node:22-slim
-# WORKDIR /usr/src/app
+FROM node:22-slim
+WORKDIR /usr/src/app
 
 # 1. Copy manifests and install production dependencies
 # COPY package.json package-lock.json ./
-# COPY apps/server/package.json ./apps/server/
+COPY apps/server/package.json ./apps/server/
 # RUN npm ci --only=production
 
 # 2. THE CRITICAL FIX: Copy the static assets (Email templates, etc.)
 # Your error proved Vendure needs these files at runtime to bootstrap
-# COPY --from=builder /usr/src/app/apps/server/static ./apps/server/static
+COPY --from=builder /usr/src/app/apps/server/static ./apps/server/static
 
 # 3. Copy the compiled JS from builder into the correct subfolder
 # Maintaining the 'apps/server/dist' path ensures relative imports work
-# COPY --from=builder /usr/src/app/apps/server/dist ./apps/server/dist
+COPY --from=builder /usr/src/app/apps/server/dist ./apps/server/dist
 
 # 4. Set environment variables
 ENV NODE_ENV=production
